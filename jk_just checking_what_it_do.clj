@@ -1,6 +1,6 @@
 (defn fuck_around
-  []
-  (println "Find out"))
+  [what]
+  (println "Find" what "out"))
 
 
-(fuck_around)
+(fuck_around 'it)
