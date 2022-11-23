@@ -1,9 +1,13 @@
 (ns project-chatbot.core
+  (:require [project-chatbot.process-input :as input]
+            [project-chatbot.process-output :as output])
   (:gen-class))
 
-(defn -main [& args]
-  (println "Testing..."))
+(defn chatbot-init []
+  (loop [last_input (read-line)]
+    (let [keywords (input/process_input_string last_input)]
+      (output/process_output_string keywords))
+    (recur (read-line))))
 
-(def parks-info
-  {"bertramka" "Bertramka is a park with a garden which was often the home to W. A. Mozart, who's museum you can visit there. It is open all year long."
-   })
+(defn -main [& args]
+  (chatbot-init))
