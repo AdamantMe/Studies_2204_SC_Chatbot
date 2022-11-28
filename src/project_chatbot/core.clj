@@ -11,3 +11,6 @@
 
 (defn -main [& args]
   (chatbot-init))
+
+(+ 4 1)
+(def asd )
