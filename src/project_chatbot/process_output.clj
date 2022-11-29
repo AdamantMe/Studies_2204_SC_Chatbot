@@ -1,55 +1,117 @@
 (ns project-chatbot.process-output
   (:use [org.clojars.cognesence.matcher.core])
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [project-chatbot.data-ops :as data]))
 
-;; Matcher copy paste
+(def rules
+  '((rule 1 (Bertramka riding true) => (Yes, you can ride a bike in Bertramka))
+    (rule 2 (Bertramka riding false) => (No, you can not ride a bike in Bertramka))))
+
+;; Use defmethod instead?
 (defmatch apply-rule [facts]
   ((rule ?n ??antecedents => ??consequents)
    :=> (mfor* [(? antecedents) facts]
               (mout (? consequents)))))
 
-(defrecord Question [keywords])
-(defn init-question []
-  (Question. (ref '())))
-(def question (init-question))
+(defn apply-all [rules facts]
+  (reduce concat
+          (map #(apply-rule % facts) rules)))
 
-(def test2
-  '((Bertramka ride)))
+;; (defrecord Question [keywords])
+;; (defn init-question []
+;;   (Question. (ref '())))
+;; (def question (init-question))
+
+(defn get-correct-synonym [input_keywords]
+  (if (= input_keywords '(bike))
+    :biking))
+
+(def synonyms
+  '([biking bike]))
+
+(defn find-matching-synonym [symbol]
+  ;; (mfind ['[?correct ?given]])
+
+  (mlet ['(??pre x ??post)
+         '(mango melon x apple pear berry)]
+        (mout '(pre= ?pre post= ??post))))
+
+
+(defn humanize-string [string]
+  (case string
+    true "Yes, "
+    false "No, "))
+
+(defn string-helper-boolean [boolean]
+  (case boolean
+    true ""
+    false "not"))
+
+(defn process-final-output [keywords]
+  (mlet ['(?park ?poi ?value) keywords]
+        ;; WIP, check if ?value is boolean, either here or outside. Replace ?value by "Yes"/"No"
+        (mout '((humanize-string ?value) you can (string-helper-boolean ?value) ?poi in ?park))))
+
+(defn get-park-name []
+  (eval :Bertramka))
+
+(defn get-poi []
+  :riding)
+
+(defn get-poi-value []
+  true)
+
+(defn construct-fact []
+  (get-park-name) (get-poi) (get-poi-value))
 
 (defn process_output_string [string]
-  (println "Keywords extrapolated from the input:" string)
+  (println "Start")
+  ;; (println get-park-name)
+  ;; (println construct-fact)
+  (println string)
+    ;; (println (apply-rule
+    ;;           '(rule 0 (Bertramka ride) => (Yes, you can ride a bike in Bertramka))
+    ;;           all_keywords))
+    ;; (println (get-correct-synonym string))
 
-  (println question)
-  (dosync (ref-set (:keywords question) (list string)))
-  (println question)
-  (println (deref (:keywords question)))
-  (println "INITIATING TESTS")
-
-  (let [all_keywords (list string)]
-
-    ;; Does NOT work
-    (println "test1:")
-    (println all_keywords)
-    (println (type all_keywords))
-    (println (apply-rule
-              '(rule 0 (Bertramka ride) => (Yes, you can ride a bike in Bertramka))
-              all_keywords))
-
-    ;; Does work
-    (println "test2:")
-    (println test2)
-    (println (type test2))
-    (println (apply-rule
-              '(rule 0 (Bertramka ride) => (Yes, you can ride a bike in Bertramka))
-              test2))
-
-    ;; Does NOT work
-    (println "test3:")
-    (println (deref (:keywords question)))
-    (println (type (deref (:keywords question))))
-    (println (apply-rule
-              '(rule 0 (Bertramka ride) => (Yes, you can ride a bike in Bertramka))
-              (deref (:keywords question))))
+    ;; (println data/park-bertramka-data)
+    ;; (println (get data/park-bertramka-data (get-correct-synonym string)))
 
 
-    (println "...done")))
+    ;; (println (process-final-output '(Bertramka riding true)))
+  ;; (println ((get-park-name) (get-poi) (get-poi-value)))
+
+  (println (apply-all rules (list (list (symbol (deref (:park data/LastQuery))) (symbol (deref (:activity data/LastQuery))) :true))))
+
+  ;; (println (list (list (symbol (deref (:park data/LastQuery))) (symbol (deref (:activity data/LastQuery))) :true)))
+
+
+
+  (println (list (list (symbol (deref (:park data/LastQuery))) (symbol (deref (:activity data/LastQuery))) :true)))
+  (println (apply-rule
+            '(rule 0 (Bertramka riding :true) => (Yes, you can ride a bike in Bertramka))
+            (list (list (symbol (deref (:park data/LastQuery))) (symbol (deref (:activity data/LastQuery))) :true))))
+
+  (println "End..."))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    ;; (println (apply-rule
+    ;;           '(rule 0 (Bertramka ride) => (Yes, you can ride a bike in Bertramka))
+    ;;           (deref (:keywords question))))
