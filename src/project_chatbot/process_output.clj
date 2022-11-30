@@ -3,9 +3,13 @@
   (:require [clojure.string :as string]
             [project-chatbot.data-ops :as data]))
 
+;; (def rules
+;;   '((rule 1 (Bertramka riding true) => (Yes, you can ride a bike in Bertramka))
+;;     (rule 2 (Bertramka riding false) => (No, you can not ride a bike in Bertramka))))
+
 (def rules
-  '((rule 1 (Bertramka riding true) => (Yes, you can ride a bike in Bertramka))
-    (rule 2 (Bertramka riding false) => (No, you can not ride a bike in Bertramka))))
+  '((rule 1 (riding true) => (Yes, you can ride a bike in))
+    (rule 2 (riding false) => (No, you can not ride a bike in))))
 
 ;; Use defmethod instead?
 (defmatch apply-rule [facts]
@@ -87,10 +91,10 @@
 
 
 
-  (println (list (list (symbol (deref (:park data/LastQuery))) (symbol (deref (:activity data/LastQuery))) :true)))
+  (println (list (list (symbol (deref (:activity data/LastQuery))) :true)))
   (println (apply-rule
-            '(rule 0 (Bertramka riding :true) => (Yes, you can ride a bike in Bertramka))
-            (list (list (symbol (deref (:park data/LastQuery))) (symbol (deref (:activity data/LastQuery))) :true))))
+            '(rule 0 (riding :true) => (Yes, you can ride a bike in))
+            (list (list (symbol (deref (:activity data/LastQuery))) :true))) (str (deref (:park data/LastQuery))))
 
   (println "End..."))
 
