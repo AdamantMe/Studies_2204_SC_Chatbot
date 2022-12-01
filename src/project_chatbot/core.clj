@@ -5,8 +5,7 @@
   (:gen-class))
 
 (defn chatbot-init []
-  (data/last-query-set-park :Bertramka) ;; temporary hardcoded
-  (data/last-query-set-activity :riding) ;; temporary hardcoded
+  ;; (data/last-query-set-activity :riding) ;; temporary hardcoded
 
   (loop [last_input (read-line)]
     (let [keywords (input/process_input_string last_input)]
