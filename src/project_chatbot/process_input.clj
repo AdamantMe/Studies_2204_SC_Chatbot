@@ -1,8 +1,10 @@
 (ns project-chatbot.process-input
-  (:require [clojure.string :as string]))
+  (:require [clojure.string :as string]
+            [project-chatbot.data-ops :as data]))
 
 (defn process_input_string [input_string]
-  (println "Processing input...")
+  ;; (println "Processing input...")
+  (data/last-query-set-park :Bertramka) ;; Temporary hardcoded, only for the prototype
   (map symbol (re-seq #"Bertramka|ride|bike|biking|skate|skating" input_string))
   ;; (string/replace input_string #"x" "modified")
   )
