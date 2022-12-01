@@ -5,7 +5,8 @@
 (defn process_input_string [input_string]
   ;; (println "Processing input...")
   (data/last-query-set-park :Bertramka) ;; Temporary hardcoded, only for the prototype
-  (map symbol (re-seq #"Bertramka|ride|bike|biking|skate|skating" input_string))
+  (data/last-query-set-activity (data/get-synonym-from-keyword (map symbol
+                                                                    (re-seq #"ride|riding|bike|biking|skate|skating|sport|sports|play|playing|playground|get to|get from|transport|transportation|parking|park a car|wc|toilet|restroom|dog|dogs|attractions|interesting|things to do|food|eat|restaurant|ski|skiing" input_string))))
   ;; (string/replace input_string #"x" "modified")
   )
 
