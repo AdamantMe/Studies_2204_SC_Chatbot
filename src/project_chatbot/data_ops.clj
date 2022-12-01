@@ -22,3 +22,26 @@
 ;;   (eval parks-data)
 ;;   (println parks-data)
   )
+
+(defn get-synonym-from-keyword [keyword]
+  (cond
+    (= keyword '(ride)) :biking
+    (= keyword '(riding)) :biking
+    (= keyword '(bike)) :biking
+    (= keyword '(skate)) :skating
+    (= keyword '(sport)) :sports
+    (= keyword '(play)) :playground
+    (= keyword '(playing)) :playground
+    (= keyword '(get to)) :transportation
+    (= keyword '(get from)) :transportation
+    (= keyword '(transport)) :transportation
+    (= keyword '(park a car)) :parking
+    (= keyword '(toilet)) :wc
+    (= keyword '(restroom)) :wc
+    (= keyword '(dog)) :dogs
+    (= keyword '(interesting)) :attractions
+    (= keyword '(things to do)) :attractions
+    (= keyword '(food)) :restaurant
+    (= keyword '(to eat)) :restaurant
+    (= keyword '(ski)) :skiing
+    :else (symbol keyword)))
