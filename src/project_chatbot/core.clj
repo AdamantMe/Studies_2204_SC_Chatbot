@@ -5,12 +5,11 @@
   (:gen-class))
 
 (defn chatbot-init []
-  ;; (data/last-query-set-activity :riding) ;; temporary hardcoded
-
   (loop [last_input (read-line)]
-    (let [keywords (input/process_input_string last_input)]
+    (if (not (nil? (input/process_input_string last_input)))
+      (output/process_output_string)
+      (println "Apologies, could not process the input. Please ask something else."))
 
-      (output/process_output_string keywords))
     (recur (read-line))))
 
 (defn -main [& args]

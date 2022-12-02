@@ -3,47 +3,12 @@
   (:require [clojure.string :as string]
             [project-chatbot.data-ops :as data]))
 
-;; (def rules
-;;   '((rule 1 (Bertramka riding true) => (Yes, you can ride a bike in Bertramka))
-;;     (rule 2 (Bertramka riding false) => (No, you can not ride a bike in Bertramka))))
+(defmatch rules []
+  ((biking true ?park) :=> (mout '(Yes, you can bike in ?park)))
+  ((biking false ?park) :=> (mout '(No, you can not bike in ?park))))
 
-;; (def rules
-;;   '((rule 1 (riding true) => Yes, you can ride a bike in)
-;;     (rule 2 (riding false) => No, you can not ride a bike in)))
-
-(defmatch test1 []
-  ((riding true ?park) :=> (mout '(Yes, you can ride a bike in ?park)))
-  ((riding false ?park) :=> (mout '(No, you can not ride a bike in ?park))))
-
-(defn process_output_string [string]
-  (println "Start")
-
-  ;; (println (apply-rule
-  ;;           rules
-  ;;           (list (list (symbol (deref (:activity data/LastQuery))) :true))) (str (deref (:park data/LastQuery))))
-  (println (list (symbol (deref (:activity data/LastQuery))) true))
-  (println (string/join " " (map name (test1 (list (symbol (deref (:activity data/LastQuery))) false (deref (:park data/LastQuery)))))))
-
-  (println "End..."))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    ;; (println (apply-rule
-    ;;           '(rule 0 (Bertramka ride) => (Yes, you can ride a bike in Bertramka))
-    ;;           (deref (:keywords question))))
+(defn process_output_string []
+  (let [activity (deref (:activity data/LastQuery))
+        availability (data/get-activity-availability activity)
+        park (string/capitalize (name (deref (:park data/LastQuery))))]
+    (println (string/join " " (rules (list (symbol activity) availability park))))))

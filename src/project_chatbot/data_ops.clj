@@ -23,6 +23,10 @@
 ;;   (println parks-data)
   )
 
+(defn get-activity-availability [input_activity_keyword]
+  
+  )
+
 ;; Return a specific form of a word, to match json file's attributes' names.
 (defn get-synonym-from-keyword [_keyword]
   (cond
