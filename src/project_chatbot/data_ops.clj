@@ -23,25 +23,26 @@
 ;;   (println parks-data)
   )
 
-(defn get-synonym-from-keyword [keyword]
+;; Return a specific form of a word, to match json file's attributes' names.
+(defn get-synonym-from-keyword [_keyword]
   (cond
-    (= keyword '(ride)) :biking
-    (= keyword '(riding)) :biking
-    (= keyword '(bike)) :biking
-    (= keyword '(skate)) :skating
-    (= keyword '(sport)) :sports
-    (= keyword '(play)) :playground
-    (= keyword '(playing)) :playground
-    (= keyword '(get to)) :transportation
-    (= keyword '(get from)) :transportation
-    (= keyword '(transport)) :transportation
-    (= keyword '(park a car)) :parking
-    (= keyword '(toilet)) :wc
-    (= keyword '(restroom)) :wc
-    (= keyword '(dog)) :dogs
-    (= keyword '(interesting)) :attractions
-    (= keyword '(things to do)) :attractions
-    (= keyword '(food)) :restaurant
-    (= keyword '(to eat)) :restaurant
-    (= keyword '(ski)) :skiing
-    :else (symbol keyword)))
+    (= _keyword '(ride)) :biking
+    (= _keyword '(riding)) :biking
+    (= _keyword '(bike)) :biking
+    (= _keyword '(skate)) :skating
+    (= _keyword '(sport)) :sports
+    (= _keyword '(play)) :playground
+    (= _keyword '(playing)) :playground
+    (= _keyword '(get to)) :transportation
+    (= _keyword '(get from)) :transportation
+    (= _keyword '(transport)) :transportation
+    (= _keyword '(park a car)) :parking
+    (= _keyword '(toilet)) :wc
+    (= _keyword '(restroom)) :wc
+    (= _keyword '(dog)) :dogs
+    (= _keyword '(interesting)) :attractions
+    (= _keyword '(things to do)) :attractions
+    (= _keyword '(food)) :restaurant
+    (= _keyword '(to eat)) :restaurant
+    (= _keyword '(ski)) :skiing
+    :else (keyword (first _keyword))))
