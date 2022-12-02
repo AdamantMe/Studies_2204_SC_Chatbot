@@ -23,9 +23,10 @@
 ;;   (println parks-data)
   )
 
-(defn get-activity-availability [input_activity_keyword]
-  
-  )
+(defn get-activity-availability [activity]
+  (let [parkName (deref (:park LastQuery))
+        park (parkName parks-data)]
+    (park (keyword activity))))
 
 ;; Return a specific form of a word, to match json file's attributes' names.
 (defn get-synonym-from-keyword [_keyword]
@@ -33,20 +34,22 @@
     (= _keyword '(ride)) :biking
     (= _keyword '(riding)) :biking
     (= _keyword '(bike)) :biking
+    (= _keyword '(ride bike)) :biking
     (= _keyword '(skate)) :skating
     (= _keyword '(sport)) :sports
     (= _keyword '(play)) :playground
     (= _keyword '(playing)) :playground
-    (= _keyword '(get to)) :transportation
-    (= _keyword '(get from)) :transportation
+    (= (name (first _keyword)) "get to") :transportation
+    (= (name (first _keyword)) "get from") :transportation
+    (= (name (first _keyword)) "get there") :transportation
     (= _keyword '(transport)) :transportation
-    (= _keyword '(park a car)) :parking
+    (= (name (first _keyword)) "park a car") :parking
     (= _keyword '(toilet)) :wc
     (= _keyword '(restroom)) :wc
     (= _keyword '(dog)) :dogs
     (= _keyword '(interesting)) :attractions
-    (= _keyword '(things to do)) :attractions
+    (= (name (first _keyword)) "things to do") :attractions
     (= _keyword '(food)) :restaurant
-    (= _keyword '(to eat)) :restaurant
+    (= (name (first _keyword)) "to eat") :restaurant
     (= _keyword '(ski)) :skiing
     :else (keyword (first _keyword))))
