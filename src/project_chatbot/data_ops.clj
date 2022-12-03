@@ -37,6 +37,9 @@
     (= _keyword '(ride bike)) :biking
     (= _keyword '(skate)) :skating
     (= _keyword '(sport)) :sports
+    (= _keyword '(soccer)) :sports
+    (= _keyword '(football)) :sports
+    (= _keyword '(frisbee)) :sports
     (= _keyword '(play)) :playground
     (= _keyword '(playing)) :playground
     (= (name (first _keyword)) "get to") :transportation
