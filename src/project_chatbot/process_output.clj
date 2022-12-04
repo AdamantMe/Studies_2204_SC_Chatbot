@@ -20,9 +20,9 @@
   ((parking false ?park) :=> (mout '(No, there is not parking at ?park)))
   ((sports true ?park) :=> (mout '(Yes, you can play sports in ?park)))
   ((sports false ?park) :=> (mout '(No, you can not play sports in ?park)))
-  ((restaurant nil ?park) :=> (mout '(There are no restaurants in ?park)))
+  ((restaurant nil ?park) :=> (mout '(Sorry, I don't have any information about restaurants in ?park)))
   ((dogs nil ?park) :=> (mout '(Sorry, I don't have any information about dogs in ?park)))
-  ((skiing nil ?park) :=> (mout '(No, you can not ski in ?park))))
+  ((skiing nil ?park) :=> (mout '(Sorry, I don't have any information about skiing in ?park))))
 
 ;; Once all 3 things, activity, availability of said activity, and the park in question, are gathered,
 ;; apply rules and figure the only correct response.
@@ -30,5 +30,6 @@
   (let [activity (deref (:activity data/LastQuery))
         availability (data/get-activity-availability activity)
         park (string/capitalize (name (deref (:park data/LastQuery))))]
-    (print "Chatbot: ")
-    (println (string/join " " (rules (list (symbol activity) availability park))))))
+    (print "-> ")
+    (println (string/join " " (rules (list (symbol activity) availability park))))
+    (println)))
