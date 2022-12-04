@@ -21,7 +21,7 @@
   ((sports true ?park) :=> (mout '(Yes, you can play sports in ?park)))
   ((sports false ?park) :=> (mout '(No, you can not play sports in ?park)))
   ((restaurant nil ?park) :=> (mout '(There are no restaurants in ?park)))
-  ((dogs nil ?park) :=> (mout '(Dogs are not allowed in ?park)))
+  ((dogs nil ?park) :=> (mout '(Sorry, I don't have any information about Dogs in ?park)))
   ((skiing nil ?park) :=> (mout '(No, you can not ski in ?park))))
 
 ;; Once all 3 things, activity, availability of said activity, and the park in question, are gathered,
