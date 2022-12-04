@@ -1,7 +1,6 @@
 (ns project-chatbot.core
   (:require [project-chatbot.process-input :as input]
             [project-chatbot.process-output :as output]
-            [project-chatbot.data-ops :as data])
   (:gen-class))
 
 ;; The part in control of interactions with the user. Greeting, a loop of questions - answers, ending.
