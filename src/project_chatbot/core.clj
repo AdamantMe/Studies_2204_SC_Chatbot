@@ -9,15 +9,15 @@
 
   (println "Hello, please enter your name?")
   (def username (read-line))
-  (println "Hello" username) (println "please ask me a question about parks in Prague.")
+  (println "Hello" username) (println "Please ask me a question about parks in Prague.") (println "You can type End at any time to end the chat")
 
   (loop [last_input (read-line)]
     (if (not (nil? (input/process_input_string last_input)))
       (output/process_output_string)
-      (if (not (= (string/lower-case last_input) "no"))
-        (println "Apologies, I could not Understand your question.") 
-        (println "Please ask something else or type No to end chat")))
-    (if (= last_input "no") (println "Goodbye")
+      (if (not (= (string/lower-case last_input) "end"))
+        (do (println "Apologies, I could not understand your question.") 
+        (println "Please ask something else or type End to end chat"))))
+    (if (= last_input "end") (println "Thank you, goodbye")
 
         (recur (read-line)))))
 
