@@ -6,7 +6,6 @@
 
 ;; The part in control of interactions with the user. Greeting, a loop of questions - answers, ending.
 (defn chatbot-init []
-
   (println "-> Please enter your name.")
   (def username (read-line))
   (println "\n-> Hello," username)
