@@ -3,6 +3,8 @@
             [project-chatbot.core :refer :all]
             [project-chatbot.data-ops :as data]))
 
+(data/last-query-set-park :bertramka)
+
 (deftest test-get-synonym-from-keyword-1
   (testing "Can not find a correct synonym for the keyword"
     (is (= (data/get-synonym-from-keyword '(ride)) :biking))))
