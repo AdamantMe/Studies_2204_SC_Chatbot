@@ -3,6 +3,8 @@
   (:require [clojure.string :as string]
             [project-chatbot.data-ops :as data]))
 
+;; List of responses for each combination of keywords (activity + its availability, e.g. sports + false) in JSON file.
+;; Each response concerns to a specific park the user asked about.
 (defmatch rules []
   ((biking true ?park) :=> (mout '(Yes, you can bike in ?park)))
   ((biking false ?park) :=> (mout '(No, you can not bike in ?park)))
@@ -10,7 +12,6 @@
   ((wc false ?park) :=> (mout '(No, there are no public restrooms in ?park)))
   ((attractions ?attractions ?park) :=> (mout '(In ?park one can access ?attractions)))
   ((transportation ?transportation ?park) :=> (mout '(?transportation)))
-  ((restaurant nil ?park) :=> (mout '(There are no restaurants in ?park)))
   ((skating true ?park) :=> (mout '(Yes, you can skate in ?park)))
   ((skating false ?park) :=> (mout '(No, you can not skate in ?park)))
   ((playground true ?park) :=> (mout '(Yes, there is a playground in ?park)))
@@ -19,10 +20,15 @@
   ((parking false ?park) :=> (mout '(No, there is not parking at ?park)))
   ((sports true ?park) :=> (mout '(Yes, you can play sports in ?park)))
   ((sports false ?park) :=> (mout '(No, you can not play sports in ?park)))
-  )
+  ((restaurant nil ?park) :=> (mout '(There are no restaurants in ?park)))
+  ((dogs nil ?park) :=> (mout '(Dogs are not allowed in ?park)))
+  ((skiing nil ?park) :=> (mout '(No, you can not ski in ?park))))
 
+;; Once all 3 things, activity, availability of said activity, and the park in question, are gathered,
+;; apply rules and figure the only correct response.
 (defn process_output_string []
   (let [activity (deref (:activity data/LastQuery))
         availability (data/get-activity-availability activity)
         park (string/capitalize (name (deref (:park data/LastQuery))))]
+    (print "Chatbot: ")
     (println (string/join " " (rules (list (symbol activity) availability park))))))

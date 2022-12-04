@@ -4,6 +4,7 @@
             [project-chatbot.data-ops :as data])
   (:gen-class))
 
+;; The part in control of interactions with the user. Greeting, a loop of questions - answers, ending.
 (defn chatbot-init []
   
   (println "Hello, please enter your name?")
@@ -17,5 +18,6 @@
 
     (recur (read-line))))
 
+;; Patient zero, all started with it.
 (defn -main [& args]
   (chatbot-init))

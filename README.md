@@ -1,32 +1,27 @@
-# project_chatbot
+# Prague Parks Chatbot
 
-FIXME: description
+A chatbot, inspired by ELIZA system. Written as a university project for Symbolic Computation class using Clojure only.
 
-## Installation
+## Getting Started
 
-Download from http://example.com/FIXME.
+### Prerequisites
+
+Leiningen https://leiningen.org 
+
+### Installation
+
+Download, unpack.
+Run "lein run" command at the project's folder's level to initiate the program. 
+Follow the instructions of the program.
 
 ## Usage
 
-FIXME: explanation
+The moment program is initiated, user can type his/her questions in the same terminal. User can inquire about different aspects of different parks in Prague.
 
-    $ java -jar project_chatbot-0.1.0-standalone.jar [args]
+### Examples
 
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+    User: Does Bertramka have a soccer field?
+    Chatbot: No, you can not play sports in Bertramka.
 
 ## License
 
