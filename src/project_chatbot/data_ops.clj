@@ -29,7 +29,7 @@
 ;; Returns a JSON file friendly form of any keyword extrapolated from user's question.
 ;; E.g. User might ask "Is there a soccer field?", instead of "Can I PLAY soccer in that park?".
 ;; Both of these questions should be given the same reply. Hence the final keyword, to use later in JSON, must be the same ("sports" in this case).
-(defn get-synonym-from-keyword [_keyword]
+(defn get-activity-synonym-from-keyword [_keyword]
   (cond
     (= _keyword '(ride)) :biking
     (= _keyword '(riding)) :biking
@@ -58,3 +58,20 @@
     (= (name (first _keyword)) "to eat") :restaurant
     (= _keyword '(ski)) :skiing
     :else (keyword (first _keyword))))
+
+(defn get-parkname-synonym-from-keyword [_keyword]
+  (cond
+    (= _keyword '(bertramka)) :bertramka
+    (= _keyword '(frantiskanska)) :frantiskanska-zahrada
+    (= _keyword '(obora)) :obora-hvezda
+    (= _keyword '(Obora)) :obora-hvezda
+    (= _keyword '(kampa)) :kampa
+    (= _keyword '(kinskeho)) :kinskeho-zahrada
+    (= _keyword '(klamovka)) :klamovka
+    (= _keyword '(ladronka)) :ladronka
+    (= _keyword '(letna)) :letna
+    (= _keyword '(petrin)) :petrin
+    (= _keyword '(riegrovy)) :riegrovy-sady
+    (= _keyword '(stromovka)) :stromovka
+    (= _keyword '(vysehrad)) :vysehrad
+    :else nil))
