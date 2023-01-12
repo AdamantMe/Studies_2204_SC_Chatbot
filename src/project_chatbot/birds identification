@@ -1,5 +1,6 @@
 (ns project-chatbot.birds-identification)
 
+;; Bird Data
 (def dictionaries
   [{:name "House sparrow", :color "brown", :size "small", :tail "rounded"}
    {:name "Eurasian blue tit", :color "blue", :size "small", :tail "pointed"}
@@ -18,3 +19,12 @@
    {:name "Eurasian jay", :color "blue-gray", :size "medium", :tail "squared"}])
 
 
+(defn build-dtree [])
+
+(defn dtree-evaluate [])
+
+(def the-dtree
+  (build-dtree))
+
+(defn init-identify-bird []
+  (dtree-evaluate))
