@@ -22,7 +22,16 @@
   ((sports false ?park) :=> (mout '(No, you can not play sports in ?park)))
   ((restaurant nil ?park) :=> (mout '(Sorry, I don't have any information about restaurants in ?park)))
   ((dogs nil ?park) :=> (mout '(Sorry, I don't have any information about dogs in ?park)))
-  ((skiing nil ?park) :=> (mout '(Sorry, I don't have any information about skiing in ?park))))
+  ((skiing nil ?park) :=> (mout '(Sorry, I don't have any information about skiing in ?park)))
+  ((restaurant nil ?park) :=> (mout '(Sorry, I don't have any information about restaurants in ?park)))
+  ((restaurant true ?park) :=> (mout '(Yes, there are restaurants in ?park)))
+  ((restaurant false ?park) :=> (mout '(No, there are no restaurants in ?park)))
+  ((dogs nil ?park) :=> (mout '(Sorry, I don't have any information about dogs in ?park)))
+  ((dogs true ?park) :=> (mout '(Yes, dogs are allowed in ?park)))
+  ((dogs false ?park) :=> (mout '(No, dogs are not allowed in ?park)))
+  ((skiing nil ?park) :=> (mout '(Sorry, I don't have any information about skiing in ?park)))
+  ((skiing true ?park) :=> (mout '(Yes, it is possible to ski in ?park)))
+  ((skiing false ?park) :=> (mout '(No, it is not possible to ski in ?park))))
 
 ;; Once all 3 things, activity, availability of said activity, and the park in question, are gathered,
 ;; apply rules and figure the only correct response.
