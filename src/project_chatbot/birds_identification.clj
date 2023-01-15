@@ -18,6 +18,33 @@
    {:name "Common kestrel", :color "brown", :size "small", :tail "squared"}
    {:name "Eurasian jay", :color "blue-gray", :size "medium", :tail "squared"}])
 
+;; Takes a vector of dictionaries and a feature as arguments and returns a vector of distinct values of the given feature from the dictionaries.
+(defn unique-feature-values [dicts feature]
+  (distinct
+   (map feature dicts)))
+
+;; Takes a feature and a value and returns a predicate for the feature
+(defn feature-value-predicate [feature value]
+  [(keyword (str (name feature) "=" value))
+   (fn [dict]
+     (= (feature dict) value))])
+
+;; Creates an array of predicates for each of the features in the dictionaries argument
+(def predicates
+  (apply concat
+         (for [feature '(:color :size :tail)]
+           (for [value (unique-feature-values dictionaries feature)]
+             (feature-value-predicate feature value)))))
+
+;; Takes a dictionary and an array of predicates and applies each predicate to the dictionary, 
+;; returning a new dictionary with the predicates as keys and the result of the predicates as values.
+(defn apply-predicates-to-dictionary [dict predicates]
+  (reduce (fn [dict pred]
+            (assoc dict
+                   (first pred)
+                   ((second pred) dict)))
+          dict
+          predicates))
 
 (defn build-dtree [])
 
