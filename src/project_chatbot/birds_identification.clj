@@ -1,4 +1,5 @@
-(ns project-chatbot.birds-identification)
+(ns project-chatbot.birds-identification
+  (:require [clojure.string :as str]))
 
 ;; Bird Data
 (def dictionaries
@@ -46,12 +47,74 @@
           dict
           predicates))
 
-(defn build-dtree [])
+(def dicts+
+  (map (fn [dict] (apply-predicates-to-dictionary dict predicates)) dictionaries))
+(def predicate-kws (map first predicates))
 
-(defn dtree-evaluate [])
+;; Takes a set of dictionaries and a feature, and returns an array of two sub-sets of the dictionaries, 
+;; based on whether the feature is present or not in each dictionary.
+(defn split-dicts [dicts feature]
+  [(filter (fn [dict] (feature dict)) dicts),
+   (filter (fn [dict] (not (feature dict))) dicts)])
 
-(def the-dtree
-  (build-dtree))
+;; Takes a set of dictionaries and an array of predicates, and returns a sorted array of predicates and their ratios
+(defn get-predicate-ratios [dicts predicates-kws]
+  (sort
+   (fn [a b] (< (second a) (second b)))
+   (filter (fn [x] (and (> (nth x 2) 0)
+                        (> (nth x 3) 0)))
+           (map (fn [pred]
+                  (let [split (split-dicts dicts pred)
+                        one (first split)
+                        two (second split)
+                        onec (count one)
+                        twoc (count two)
+                        ratio (if (> (min onec twoc) 0)
+                                (/ (max onec twoc)
+                                   (min onec twoc))
+                                0)]
+                    [pred ratio onec twoc]))
+                predicates-kws))))
+
+;; Takes a set of dictionaries, an answer, and an array of predicates.
+;; Builds a decision tree based on the predicates and their ratios.
+(defn build-dtree [dicts answer predicates-kws]
+  (let [predicate-ratios (get-predicate-ratios dicts predicates-kws)]
+    (cond
+      (= (count dicts) 1) (let [dict (first dicts)]
+                            {:resolution (str "According to my database, it is most likely a " (:name dict) "."),
+                             :answer answer})
+      :else (let [spred (first (first predicate-ratios))
+                  split (split-dicts dicts spred)
+                  one (first split)
+                  two (second split)]
+              {:answer answer,
+               :question (str
+                          "Is its "
+                          (clojure.string/join " " (clojure.string/split (name spred) #"="))
+                          "?"),
+               :children [(build-dtree one "yes" (map first (rest predicate-ratios)))
+                          (build-dtree two "no" (map first (rest predicate-ratios)))]}))))
+
+;; Takes a decision tree node, and evaluates the node.
+;; If the node has a resolution, it prints it. 
+;; Otherwise, it keeps going through the decision tree until the end.
+(defn dtree-evaluate [node]
+  (if (:resolution node)
+    (println (:resolution node))
+    (do
+      (println (:question node))
+      (let [answer (str/lower-case (read-line))
+            child (first (filter (fn [c] (= (:answer c) answer)) (:children node)))]
+        (if child
+          (dtree-evaluate child)
+          (do
+            (println "Unknown answer.")
+            (dtree-evaluate node)))))))
+
+(def decision-tree
+  (build-dtree dicts+ nil predicate-kws))
 
 (defn init-identify-bird []
-  (dtree-evaluate))
+  (println "A series of \"Yes\" & \"No\" questions to help identify a bird you're interested in:")
+  (dtree-evaluate decision-tree))
