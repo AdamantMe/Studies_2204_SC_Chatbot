@@ -64,7 +64,6 @@
     (= _keyword '(bertramka)) :bertramka
     (= _keyword '(frantiskanska)) :frantiskanska-zahrada
     (= _keyword '(obora)) :obora-hvezda
-    (= _keyword '(Obora)) :obora-hvezda
     (= _keyword '(kampa)) :kampa
     (= _keyword '(kinskeho)) :kinskeho-zahrada
     (= _keyword '(klamovka)) :klamovka
